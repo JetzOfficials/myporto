@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Portfolio of Rediansyah Arta Sena - Senior Full Stack Engineer.">
+    <title>ASR GROUP FORUM | Digital Architect</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        /* ========================================
+        CORE VARIABLES & RESET
+        ========================================
+        */
+        :root {
+            --bg-dark: #030304;
+            --bg-card: rgba(12, 12, 14, 0.7);
+            --bg-card-hover: rgba(18, 18, 21, 0.9);
+            
+            --primary: #6366f1; /* Indigo Original */
+            --primary-dim: rgba(99, 102, 241, 0.05);
+            --primary-glow: rgba(99, 102, 241, 0.4);
+            
+            --text-main: #ffffff;
+            --text-muted: #94949e;
+            
+            --border-light: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(99, 102, 241, 0.3);
+            
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            
+            --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { 
+            scroll-behavior: smooth; 
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ========================================
+        FX: ATMOSPHERE & ANIMATIONS
+        ========================================
+        */
+        .noise-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9999; opacity: 0.035;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .glow-orb {
+            position: fixed; width: 60vh; height: 60vh;
+            background: radial-gradient(circle, var(--primary-glow) 0%, rgba(0,0,0,0) 70%);
+            filter: blur(100px); pointer-events: none; z-index: -1;
+            opacity: 0.4;
+            transition: all 2s ease;
+        }
+        .orb-1 { top: -15%; right: -15%; animation: breathe 8s infinite alternate ease-in-out; }
+        .orb-2 { bottom: -15%; left: -15%; background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, rgba(0,0,0,0) 70%); animation: breathe 12s infinite alternate-reverse ease-in-out; }
+
+        @keyframes breathe {
+            0% { transform: scale(1) translate(0, 0); opacity: 0.4; }
+            100% { transform: scale(1.2) translate(-20px, 20px); opacity: 0.2; }
+        }
+
+        /* Scroll Reveal Utility */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-smooth);
+        }
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========================================
+        TYPOGRAPHY & UTILS
+        ========================================
+        */
+        h1, h2, h3, h4 { font-family: var(--font-display); color: var(--text-main); font-weight: 700; letter-spacing: -0.03em; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 30%, var(--primary) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .highlight { color: var(--primary); }
+        
+        /* Buttons with Shine Effect */
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 14px 32px; border-radius: 12px;
+            font-size: 0.95rem; font-weight: 600; text-decoration: none;
+            transition: all 0.3s var(--ease-smooth); position: relative; overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn-primary {
+            background: var(--primary); color: #fff;
+            box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.5), 0 10px 30px -10px rgba(99, 102, 241, 0.5);
+        }
+        .btn-primary::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: skewX(-20deg); transition: 0.5s; z-index: -1;
+        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 0 0 1px var(--primary), 0 15px 40px -10px rgba(99, 102, 241, 0.7); }
+        .btn-primary:hover::after { left: 200%; transition: 0.7s; }
+        
+        .btn-outline {
+            background: rgba(255,255,255,0.02); border: 1px solid var(--border-light); color: #fff;
+            backdrop-filter: blur(10px);
+        }
+        .btn-outline:hover { background: rgba(255,255,255,0.08); border-color: #fff; transform: translateY(-3px); }
+
+        /* ========================================
+        NAVBAR
+        ========================================
+        */
+        .navbar {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 1200px; z-index: 1000;
+            padding: 12px 24px; transition: all 0.4s var(--ease-smooth);
+            background: rgba(3, 3, 4, 0.6); backdrop-filter: blur(20px);
+            border: 1px solid var(--border-light); border-radius: 100px;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+        }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; padding: 0; }
+        .logo { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; text-decoration: none; color: #fff; letter-spacing: -0.02em; }
+        .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
+        .nav-links a { 
+            color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 500; 
+            transition: color 0.3s; position: relative;
+        }
+        .nav-links a:hover { color: #fff; }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
+            background: var(--primary); transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* ========================================
+        HERO SECTION
+        ========================================
+        */
+        .hero {
+            min-height: 100vh; display: flex; align-items: center; padding-top: 100px;
+            position: relative; overflow: hidden;
+        }
+        .hero-text h1 {
+            font-size: clamp(2.8rem, 7vw, 6rem); line-height: 1.05; margin-bottom: 24px;
+            background: linear-gradient(to bottom, #fff 40%, rgba(255,255,255,0.6));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero-text p {
+            font-size: clamp(1rem, 2vw, 1.25rem); color: var(--text-muted); max-width: 580px; margin-bottom: 40px; line-height: 1.7;
+        }
+        
+        /* Shimmer Badge */
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 8px 16px; background: rgba(99, 102, 241, 0.08); 
+            border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 100px;
+            font-size: 0.75rem; color: var(--primary); margin-bottom: 32px;
+            font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;
+            position: relative; overflow: hidden;
+        }
+        .status-badge::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.2), transparent);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer { 0% { left: -100%; } 20% { left: 100%; } 100% { left: 100%; } }
+        
+        .status-dot { 
+            width: 6px; height: 6px; background: var(--primary); border-radius: 50%; 
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2); 
+            animation: pulse-dot 2s infinite;
+        }
+        @keyframes pulse-dot { 0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.6); } 70% { box-shadow: 0 0 0 6px rgba(99, 102, 241, 0); } 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); } }
+
+        /* ========================================
+        SPOTLIGHT CARDS (MODERNIZED)
+        ========================================
+        */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.4s var(--ease-smooth);
+            display: flex; flex-direction: column;
+            backdrop-filter: blur(12px);
+        }
+        
+        /* Smooth Spotlight */
+        .card::after {
+            content: "";
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(99, 102, 241, 0.08), transparent 40%);
+            opacity: 0; transition: opacity 0.5s; pointer-events: none; z-index: 2;
+        }
+        .card:hover::after { opacity: 1; }
+        .card:hover { 
+            border-color: var(--border-hover); 
+            transform: translateY(-5px) scale(1.01); 
+            box-shadow: 0 20px 40px -20px rgba(0,0,0,0.8);
+        }
+
+        /* ========================================
+        BENTO GRID PROJECTS
+        ========================================
+        */
+        .projects-section { padding: 120px 0; }
+        .section-header { margin-bottom: 70px; }
+        .section-header h4 { font-size: 0.8rem; letter-spacing: 0.1em; color: var(--primary); margin-bottom: 12px; text-transform: uppercase; }
+        .section-header h2 { font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: 16px; }
+        
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: 380px 380px;
+            gap: 24px;
+        }
+
+        .bento-item.span-2 { grid-column: span 2; }
+        .bento-item.span-1 { grid-column: span 1; }
+        
+        .project-img-wrapper {
+            width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 0;
+            overflow: hidden;
+        }
+        .project-img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.8s var(--ease-smooth);
+            opacity: 0.5; filter: grayscale(40%);
+        }
+        .card:hover .project-img { transform: scale(1.1); opacity: 0.3; filter: grayscale(0%); }
+        
+        .overlay-gradient {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, #030304 15%, transparent 100%);
+            z-index: 1;
+        }
+
+        .project-content {
+            position: relative; z-index: 3;
+            height: 100%; display: flex; flex-direction: column; justify-content: flex-end;
+            padding: 32px; pointer-events: none;
+            transform: translateY(10px); transition: transform 0.4s var(--ease-smooth);
+        }
+        .card:hover .project-content { transform: translateY(0); }
+        
+        .tech-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+        .tag {
+            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;
+            padding: 5px 10px; background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; color: #ccc;
+            backdrop-filter: blur(4px);
+        }
+
+        /* ========================================
+        SKILLS GRID
+        ========================================
+        */
+        .skills-section { padding: 60px 0; }
+        .skills-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px;
+        }
+        .skill-card {
+            padding: 30px; align-items: center; justify-content: center; text-align: center; gap: 16px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%);
+        }
+        .skill-card i { font-size: 40px; color: var(--text-muted); transition: 0.4s var(--ease-elastic); }
+        .skill-card:hover i { color: var(--primary); transform: scale(1.2) rotate(5deg); text-shadow: 0 0 20px rgba(99, 102, 241, 0.5); }
+        .skill-name { font-weight: 500; font-size: 0.9rem; letter-spacing: 0.02em; color: var(--text-muted); }
+        .skill-card:hover .skill-name { color: #fff; }
+
+        /* ========================================
+        CONTACT
+        ========================================
+        */
+        .contact-section { padding: 120px 0; padding-bottom: 60px; }
+        .contact-wrapper {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+        }
+        .contact-form {
+            display: flex; flex-direction: column; gap: 20px;
+            background: linear-gradient(180deg, rgba(12,12,14,0.5) 0%, rgba(12,12,14,0.2) 100%);
+            padding: 40px; border-radius: 24px; border: 1px solid var(--border-light);
+        }
+        .input-group input, .input-group textarea {
+            width: 100%; background: rgba(3, 3, 4, 0.6); border: 1px solid var(--border-light);
+            padding: 18px; border-radius: 12px; color: #fff; font-family: inherit; font-size: 0.95rem;
+            transition: 0.3s; outline: none;
+        }
+        .input-group input:focus, .input-group textarea:focus {
+            border-color: var(--primary); background: rgba(3, 3, 4, 0.9);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+        
+        .social-link {
+            width: 50px; height: 50px; border-radius: 50%;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border-light);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 1.4rem; transition: 0.3s var(--ease-elastic);
+            text-decoration: none;
+        }
+        .social-link:hover { background: var(--primary); border-color: var(--primary); transform: translateY(-5px); }
+
+        /* ========================================
+        MOBILE RESPONSIVE TWEAKS (PERFECTED)
+        ========================================
+        */
+        @media (max-width: 900px) {
+            .navbar { top: 0; width: 100%; border-radius: 0; border-top: none; padding: 16px 24px; max-width: 100%; border-left: none; border-right: none;}
+            .nav-links li:not(:last-child) { display: none; } /* Hide middle links on mobile */
+            
+            .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; gap: 20px; }
+            .bento-item.span-2, .bento-item.span-1 { grid-column: span 1; height: 280px; }
+            
+            .contact-wrapper { grid-template-columns: 1fr; gap: 40px; }
+            .contact-form { padding: 24px; }
+            
+            .hero-btns { flex-direction: column; width: 100%; }
+            .btn { width: 100%; }
+        }
+        
+        @media (max-width: 480px) {
+            .container { padding: 0 20px; }
+            .hero-text h1 { font-size: 2.8rem; }
+            .project-content { padding: 20px; }
+            h2 { font-size: 2rem; }
+            .skill-card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="noise-bg"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="#" class="logo">ASRGROUP<span class="highlight">FORUM</span></a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Work</a></li>
+                <li><a href="#stack">Stack</a></li>
+                <li><a href="#contact" class="btn btn-primary" style="padding: 8px 24px; font-size: 0.85rem; width: auto;">Let's Talk</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-text reveal-on-scroll">
+                <div class="status-badge">
+                    <span class="status-dot"></span> Available for new projects
+                </div>
+                <h1>Building the <br><span class="text-gradient">Digital Future.</span></h1>
+                <p>I am the architect behind <strong>ASRGROUP</strong>. I craft high-performance, accessible, and visually stunning digital experiences focusing on precision engineering.</p>
+                <div class="hero-btns" style="display: flex; gap: 16px; margin-top: 32px;">
+                    <a href="#projects" class="btn btn-primary">View Projects <i class="ph ph-arrow-right"></i></a>
+                    <a href="#contact" class="btn btn-outline">Contact Me</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="projects-section">
+            <div class="container">
+                <div class="section-header reveal-on-scroll">
+                    <h4>Selected Works</h4>
+                    <h2>Featured <span class="highlight">Projects</span></h2>
+                </div>
+
+                <div class="bento-grid" id="cards-container">
+                    
+                    <div class="card bento-item span-2 reveal-on-scroll">
+                        <div class="project-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2370&auto=format&fit=crop" alt="Dashboard" class="project-img">
+                        </div>
+                        <div class="overlay-gradient"></div>
+                        <div class="project-content">
+                            <div class="tech-tags">
+                                <span class="tag">Next.js</span>
+                                <span class="tag">Stripe</span>
+                                <span class="tag">Tailwind</span>
+                            </div>
+                            <h3>E-Commerce Enterprise</h3>
+                            <p style="color: #bbb; margin-top: 6px; font-size: 0.9rem;">Headless commerce solution processing $1M+ monthly volume.</p>
+                        </div>
+                    </div>
+
+                    <div class="card bento-item span-1 reveal-on-scroll" style="transition-delay: 100ms;">
+                        <div class="project-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1642427749670-f20e2e76ed8c?q=80&w=2426&auto=format&fit=crop" alt="Finance" class="project-img">
+                        </div>
+                        <div class="overlay-gradient"></div>
+                        <div class="project-content">
+                            <div class="tech-tags"><span class="tag">React</span><span class="tag">D3.js</span></div>
+                            <h3>Fintech Dash</h3>
+                            <p style="color: #bbb; font-size: 0.9rem;">Real-time visualization.</p>
+                        </div>
+                    </div>
+
+                    <div class="card bento-item span-1 reveal-on-scroll">
+                        <div class="project-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=2565&auto=format&fit=crop" alt="AI" class="project-img">
+                        </div>
+                        <div class="overlay-gradient"></div>
+                        <div class="project-content">
+                            <div class="tech-tags"><span class="tag">OpenAI</span><span class="tag">Python</span></div>
+                            <h3>AI Context Engine</h3>
+                            <p style="color: #bbb; font-size: 0.9rem;">Generative wrapper API.</p>
+                        </div>
+                    </div>
+
+                    <div class="card bento-item span-2 reveal-on-scroll" style="transition-delay: 100ms;">
+                        <div class="project-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=2370&auto=format&fit=crop" alt="Code" class="project-img">
+                        </div>
+                        <div class="overlay-gradient"></div>
+                        <div class="project-content">
+                            <div class="tech-tags">
+                                <span class="tag">PostgreSQL</span>
+                                <span class="tag">Node</span>
+                                <span class="tag">Redis</span>
+                            </div>
+                            <h3>ASR GROUP Hub Forum</h3>
+                            <p style="color: #bbb; margin-top: 6px; font-size: 0.9rem;">Scalable community platform architecture designed for 10k+ concurrent users.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="stack" class="skills-section">
+            <div class="container">
+                <div class="section-header reveal-on-scroll">
+                    <h2>Technical <span class="highlight">Arsenal</span></h2>
+                </div>
+                <div class="skills-grid" id="skills-container">
+                    <div class="card skill-card reveal-on-scroll">
+                        <i class="ph ph-atom"></i>
+                        <span class="skill-name">React / Next</span>
+                    </div>
+                    <div class="card skill-card reveal-on-scroll" style="transition-delay: 50ms;">
+                        <i class="ph ph-code"></i>
+                        <span class="skill-name">TypeScript</span>
+                    </div>
+                    <div class="card skill-card reveal-on-scroll" style="transition-delay: 100ms;">
+                        <i class="ph ph-paint-brush"></i>
+                        <span class="skill-name">Tailwind</span>
+                    </div>
+                    <div class="card skill-card reveal-on-scroll" style="transition-delay: 150ms;">
+                        <i class="ph ph-database"></i>
+                        <span class="skill-name">PostgreSQL</span>
+                    </div>
+                    <div class="card skill-card reveal-on-scroll" style="transition-delay: 200ms;">
+                        <i class="ph ph-cube"></i>
+                        <span class="skill-name">Three.js</span>
+                    </div>
+                    <div class="card skill-card reveal-on-scroll" style="transition-delay: 250ms;">
+                        <i class="ph ph-figma-logo"></i>
+                        <span class="skill-name">Figma</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact-section">
+            <div class="container contact-wrapper">
+                <div class="reveal-on-scroll">
+                    <h2>Let's build something <br><span class="highlight">impossible.</span></h2>
+                    <p style="color: var(--text-muted); margin-top: 20px; font-size: 1.1rem;">
+                        Have a project in mind? I specialize in turning complex problems into elegant, scalable solutions.
+                    </p>
+                    <div style="margin-top: 40px; display: flex; gap: 16px;">
+                        <a href="#" class="social-link"><i class="ph ph-github-logo"></i></a>
+                        <a href="#" class="social-link"><i class="ph ph-linkedin-logo"></i></a>
+                        <a href="#" class="social-link"><i class="ph ph-envelope"></i></a>
+                    </div>
+                </div>
+                <form class="contact-form reveal-on-scroll" style="transition-delay: 200ms;">
+                    <div class="input-group">
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="input-group">
+                        <textarea rows="4" placeholder="Tell me about your project..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Send Message <i class="ph ph-paper-plane-right"></i></button>
+                </form>
+            </div>
+        </section>
+
+        <footer style="padding: 40px 0; border-top: 1px solid var(--border-light); text-align: center; color: var(--text-muted); font-size: 0.85rem; background: rgba(0,0,0,0.3);">
+            <div class="container">
+                <p>&copy; 2025 ASR Group. Precision Digital Architecture.</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Spotlight Effect Logic (Refined)
+            const cards = document.querySelectorAll('.card');
+            
+            const updateSpotlight = (e) => {
+                cards.forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+                });
+            };
+
+            // Optimize listener: use requestAnimationFrame if heavy, but standard is fine here
+            document.body.addEventListener('mousemove', updateSpotlight);
+
+            // 2. Intersection Observer for Scroll Animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px" // Trigger slightly before element enters fully
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Only animate once
+                    }
+                });
+            }, observerOptions);
+
+            const scrollElements = document.querySelectorAll('.reveal-on-scroll');
+            scrollElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
